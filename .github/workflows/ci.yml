@@ -13,14 +13,13 @@ jobs:
     services:
       db:
         image: postgres:14-alpine
-      environment:
-        - POSTGRES_USER=HoangTu
-        - POSTGRES_PASSWORD=AnhTu2005@
-        - POSTGRES_DB=Database
-      ports:
-        - 5432:5432
-
-      options: --health-cmd pg_isready --healthinterval 10s --health-timeout 5s --health-retries 5
+        env:
+          POSTGRES_USER: HoangTu
+          POSTGRES_PASSWORD: Anhtu2005@
+          POSTGRES_DB: Database
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
 
@@ -33,7 +32,6 @@ jobs:
         node-version: '18'
         cache: 'npm'
 
-
     - name: Install dependencies
       run: npm install
 
@@ -42,5 +40,5 @@ jobs:
       env: 
         DB_HOST: localhost 
         DB_USER: HoangTu
-        DB_PASSWORD: AnhTu2005@
+        DB_PASSWORD: Anhtu2005@
         DB_NAME: Database
