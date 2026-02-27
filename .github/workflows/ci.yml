@@ -9,39 +9,47 @@ jobs:
   build-and-test:
     name: Build & Test
     runs-on: ubuntu-latest
+    services:
+      db:
+        image: postgres:14-alpine
+        env:
+          POSTGRES_USER: HoangTu
+          POSTGRES_PASSWORD: Anhtu2005@
+          POSTGRES_DB: Database
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        ports:
+          - 5432:5432
 
-# This starts a Postgres database *for this job*
-  services:
-    db:
-      image: postgres:14-alpine
-      environment:
-      - POSTGRES_USER=HoangTu
-      - POSTGRES_PASSWORD=Anhtu2005@
-      - POSTGRES_DB=Database
-    ports:
-    - 5432:5432
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    options: --health-cmd pg_isready --health-
-    interval 10s --health-timeout 5s --health-retries 5
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
 
-  steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm install
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-        cache: 'npm'
+      - name: Run tests
+        run: npm test
+        env:
+          DB_HOST: postgres
+          DB_USER: HoangTu
+          DB_PASSWORD: Anhtu2005@
+          DB_NAME: Database
 
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
-    - name: Install dependencies
-      run: npm install
-
-    - name: Run tests
-      run: npm test
-      env:
-        DB_HOST: postgres
-        DB_USER: HoangTu
-        DB_PASSWORD: Anhtu2005@
-        DB_NAME: Database
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/devops-project-6:latest
