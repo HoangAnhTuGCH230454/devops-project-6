@@ -1,0 +1,21 @@
+{
+  "name": "devops-project-6",
+  "version": "1.0.0",
+  "description": "This is a simple Todo application with:\r - **Frontend**: React (port 3000)\r - **Backend**: Node.js/Express (port 8080)\r - **Database**: PostgreSQL (port 5432)\r - When running with docker-compose, the backend listens on port 8080 within the container and is mapped to the host (e.g., 8080).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HoangAnhTuGCH230454/devops-project-6.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/HoangAnhTuGCH230454/devops-project-6/issues"
+  },
+  "homepage": "https://github.com/HoangAnhTuGCH230454/devops-project-6#readme"
+}
